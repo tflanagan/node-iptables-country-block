@@ -1,15 +1,44 @@
 {
 	"name": "iptables-country-block",
-	"version": "1.0.0",
+	"private": false,
+	"version": "0.1.0",
 	"description": "Block countries via iptables",
-	"main": "main.js",
-	"scripts": {},
 	"keywords": [
 		"iptables",
 		"country",
 		"block"
 	],
-	"author": "Tristian Flanagan",
-	"license": "SEE LICENSE IN LICENSE",
-	"dependencies": {}
+	"homepage": "https://github.com/tflanagan/node-iptables-country-block",
+	"bugs": {
+		"url": "https://github.com/tflanagan/node-iptables-country-block/issues",
+		"email": "contact@tristianflanagan.com"
+	},
+	"license": "Apache-2.0",
+	"author": {
+		"name": "Tristian Flanagan",
+		"url": "https://github.com/tflanagan",
+		"email": "contact@tristianflanagan.com"
+	},
+	"maintainers": [
+		{
+			"name": "Tristian Flanagan",
+			"url": "https://github.com/tflanagan",
+			"email": "contact@tristianflanagan.com"
+		}
+	],
+	"contributors": [
+		"Tristian Flanagan <contact@tristianflanagan.com> (https://github.com/tflanagan)"
+	],
+	"main": "main.js",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:tflanagan/node-iptables-country-block.git"
+	},
+	"scripts": {},
+	"dependencies": {},
+	"devDependencies": {},
+	"engines": {
+		"node": ">=7.6.*"
+	},
+	"git": "git@github.com:tflanagan/node-iptables-country-block.git"
 }
