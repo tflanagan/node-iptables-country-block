@@ -18,8 +18,6 @@ const delay = (time) => {
 const _iptables = (cli) => {
 	return new Promise((resolve, reject) => {
 		exec('iptables ' + cli, (err, stdout, stderr) => {
-			console.log(err, stdout, stderr);
-
 			if(err){
 				return reject(err);
 			}else
