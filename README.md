@@ -5,15 +5,18 @@ Interact with `iptables`, block whole countries based on assigned ip blocks
 ## Install
 
 ```
-$ npm install iptables-country-block
+$ npm install [--global] iptables-country-block
 ```
 
 ## Usage
 
 ### CLI
+
+Note: Most use cases requires `--global` installation
+
 ```
-$ [sudo] node /path/to/package/main.js ["<country iso codes, space delimited>"[ "<iptables chain name>"[ "<url template of ip block sources>"]]]
-$ [sudo] node /path/to/package/main.js "ru cn" "countryipblock" "https://raw.githubusercontent.com/herrbischoff/country-ip-blocks/master/ipv4/{isoCode}.cidr"
+$ [sudo] iptables-country-block ["<country iso codes, space delimited>"[ "<iptables chain name>"[ "<url template of ip block sources>"]]]
+$ [sudo] iptables-country-block "ru cn" "countryipblock" "https://raw.githubusercontent.com/herrbischoff/country-ip-blocks/master/ipv4/{isoCode}.cidr"
 ```
 
 ### Require

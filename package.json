@@ -1,7 +1,7 @@
 {
 	"name": "iptables-country-block",
 	"private": false,
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Block countries via iptables",
 	"keywords": [
 		"iptables",
@@ -29,12 +29,15 @@
 	"contributors": [
 		"Tristian Flanagan <contact@tristianflanagan.com> (https://github.com/tflanagan)"
 	],
-	"main": "main.js",
+	"main": "src/main.js",
 	"repository": {
 		"type": "git",
 		"url": "git@github.com:tflanagan/node-iptables-country-block.git"
 	},
 	"scripts": {},
+	"bin": {
+		"iptables-country-block": "./bin/cli.js"
+	},
 	"dependencies": {},
 	"devDependencies": {},
 	"engines": {
