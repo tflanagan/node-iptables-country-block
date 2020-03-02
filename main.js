@@ -9,10 +9,30 @@ const got = require('got');
 const exec = require('child_process').exec;
 
 /* Functions */
+const createIptablesChain = async (chainName) => {
+	try {
+		await iptables('-N ' + chainName);
+	}catch(err){
+		if(!err.message.match(/Chain already exists/)){
+			throw err;
+		}
+	}
+};
+
 const delay = (time) => {
 	return new Promise((resolve) => {
 		setTimeout(resolve, time);
 	});
+};
+
+const getCountryIPBlocks = async (isoCode) => {
+	const response = await got([
+		'https://raw.githubusercontent.com/herrbischoff/country-ip-blocks/master/ipv4/',
+		isoCode,
+		'.cidr'
+	].join(''));
+
+	return Promise.resolve(response.body.trim().split('\n'));
 };
 
 const _iptables = (cli) => {
@@ -44,39 +64,15 @@ const iptables = async (cli) => {
 	};
 };
 
-const cleanup = async () => {
-	await iptables('-F');
-	await iptables('-X');
-	await iptables('-t nat -F');
-	await iptables('-t nat -X');
-	await iptables('-t mangle -F');
-	await iptables('-t mangle -X');
-	await iptables('-P INPUT ACCEPT');
-	await iptables('-P OUTPUT ACCEPT');
-	await iptables('-P FORWARD ACCEPT');
-
-	return Promise.resolve();
-};
-
-const getCountryIPBlocks = async (isoCode) => {
-	const response = await got([
-		'https://raw.githubusercontent.com/herrbischoff/country-ip-blocks/master/ipv4/',
-		isoCode,
-		'.cidr'
-	].join(''));
-
-	return Promise.resolve(response.body.trim().split('\n'));
-};
-
 /* Bang! */
 (async () => {
-	console.log('Cleaning up existing rules...');
-
-	await cleanup();
-
 	console.log('Creating country block table list...');
 
-	await iptables('-N ' + iptablesListName);
+	createIptablesChain(iptablesListName);
+
+	console.log('Flushing existing rules...');
+
+	await iptables('--flush ' + iptablesListName);
 
 	console.log('Processing configured countries...');
 
@@ -107,6 +103,13 @@ const getCountryIPBlocks = async (isoCode) => {
 	}
 
 	console.log('Done processing configured country codes');
+
+	console.log('Attempting to remove existing country block table list...');
+
+	try { await iptables('-D INPUT -j ' + iptablesListName); }catch(ignore){}
+	try { await iptables('-D OUTPUT -j ' + iptablesListName); }catch(ignore){}
+	try { await iptables('-D FORWARD -j ' + iptablesListName); }catch(ignore){}
+
 	console.log('Adding country block table list...');
 
 	await iptables('-I INPUT -j ' + iptablesListName);
@@ -115,7 +118,7 @@ const getCountryIPBlocks = async (isoCode) => {
 
 	console.log('Done');
 	console.log('Recommended to install a cronjob for updating these rules');
-	console.log('@weekly node /path/to/this/package/main.js');
+	console.log('@weekly node %s/main.js "%s" "%s"', __dirname, countries.join(' '), iptablesListName);
 
 	return true;
 })();
