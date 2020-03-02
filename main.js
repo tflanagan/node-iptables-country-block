@@ -29,7 +29,7 @@ const delay = (time) => {
 const getCountryIPBlocks = (isoCode) => {
 	return new Promise((resolve, reject) => {
 		https.get(countryIpBlockSource.replace('{isoCode}', isoCode), (res) => {
-			resolve(res.trim().split('\n'));
+			resolve(res.toString().trim().split('\n'));
 		}).on('error', reject);
 	});
 };
