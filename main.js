@@ -29,7 +29,15 @@ const delay = (time) => {
 const getCountryIPBlocks = (isoCode) => {
 	return new Promise((resolve, reject) => {
 		https.get(countryIpBlockSource.replace('{isoCode}', isoCode), (res) => {
-			resolve(res.toString().trim().split('\n'));
+			let results = '';
+
+			res.on('data', (chunk) => {
+				results += chunk.toString();
+			});
+
+			res.on('end', () => {
+				resolve(results.trim().split('\n'));
+			});
 		}).on('error', reject);
 	});
 };
@@ -117,7 +125,7 @@ const iptables = async (cli) => {
 
 	console.log('Done');
 	console.log('Recommended to install a cronjob for updating these rules');
-	console.log('@weekly node %s/main.js "%s" "%s"', __dirname, countries.join(' '), iptablesListName);
+	console.log('@weekly node %s/main.js "%s" "%s" "%s"', __dirname, countries.join(' '), iptablesListName, countryIpBlockSource);
 
 	return true;
 })();
