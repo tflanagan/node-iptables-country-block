@@ -12,7 +12,7 @@ const {
 
 /* Bang */
 (async () => {
-	const countries = (process.argv[2] + '').split(' ');
+	const countries = (process.argv[2] || '').split(' ');
 	const iptablesListName = process.argv[3] || 'countryipblock';
 	const countryIpBlockSource = process.argv[4] || 'https://raw.githubusercontent.com/herrbischoff/country-ip-blocks/master/ipv4/{isoCode}.cidr';
 
