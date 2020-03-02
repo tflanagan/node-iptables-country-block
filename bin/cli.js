@@ -29,7 +29,7 @@ const {
 	for(let i = 0; i < countries.length; ++i){
 		const isoCode = countries[i];
 
-		console.log('%d/%d: Processing country code "%s"...', i, countries.length, isoCode);
+		console.log('%d/%d: Processing country code "%s"...', i + 1, countries.length, isoCode);
 
 		const ipBlocks = await getCountryIPBlocks(countryIpBlockSource, isoCode);
 
@@ -38,7 +38,7 @@ const {
 		for(let o = 0; o < ipBlocks.length; ++o){
 			const ipBlock = ipBlocks[o];
 
-			console.log('%d/%d %s %d/%d: Adding ip block %s', i, countries.length, isoCode, o, ipBlocks.length, ipBlock);
+			console.log('%d/%d %s %d/%d: Adding ip block %s', i + 1, countries.length, isoCode, o + 1, ipBlocks.length, ipBlock);
 
 			await iptables([
 				'-A',
@@ -68,7 +68,7 @@ const {
 
 	console.log('Done');
 	console.log('Recommended to install a cronjob for updating these rules');
-	console.log('@weekly iptables-country-block "%s" "%s" "%s"', __dirname, countries.join(' '), iptablesListName, countryIpBlockSource);
+	console.log('@weekly iptables-country-block "%s" "%s" "%s"', countries.join(' '), iptablesListName, countryIpBlockSource);
 
 	return true;
 })();
