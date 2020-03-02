@@ -11,7 +11,5 @@
 	],
 	"author": "Tristian Flanagan",
 	"license": "SEE LICENSE IN LICENSE",
-	"dependencies": {
-		"got": "^10.6.0"
-	}
+	"dependencies": {}
 }

@@ -3,10 +3,11 @@
 /* Config */
 const countries = process.argv[2].split(' ');
 const iptablesListName = process.argv[3] || 'countryipblock';
+const countryIpBlockSource = process.argv[4] || 'https://raw.githubusercontent.com/herrbischoff/country-ip-blocks/master/ipv4/{isoCode}.cidr';
 
 /* Dependencies */
-const got = require('got');
 const exec = require('child_process').exec;
+const https = require('https');
 
 /* Functions */
 const createIptablesChain = async (chainName) => {
@@ -25,14 +26,12 @@ const delay = (time) => {
 	});
 };
 
-const getCountryIPBlocks = async (isoCode) => {
-	const response = await got([
-		'https://raw.githubusercontent.com/herrbischoff/country-ip-blocks/master/ipv4/',
-		isoCode,
-		'.cidr'
-	].join(''));
-
-	return Promise.resolve(response.body.trim().split('\n'));
+const getCountryIPBlocks = (isoCode) => {
+	return new Promise((resolve, reject) => {
+		https.get(countryIpBlockSource.replace('{isoCode}', isoCode), (res) => {
+			resolve(res.trim().split('\n'));
+		}).on('error', reject);
+	});
 };
 
 const _iptables = (cli) => {
