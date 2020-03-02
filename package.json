@@ -1,0 +1,17 @@
+{
+	"name": "iptables-country-block",
+	"version": "1.0.0",
+	"description": "Block countries via iptables",
+	"main": "main.js",
+	"scripts": {},
+	"keywords": [
+		"iptables",
+		"country",
+		"block"
+	],
+	"author": "Tristian Flanagan",
+	"license": "SEE LICENSE IN LICENSE",
+	"dependencies": {
+		"got": "^10.6.0"
+	}
+}
